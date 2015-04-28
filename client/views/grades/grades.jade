@@ -1,0 +1,64 @@
+h3 gradeTest
+h4 Student: {{activeUser.uid}}
+hr
+form(name='addCourseForm' novalidate) 
+.row
+  .col-xs-6
+      .form-group
+        label(for='coursename') Course Name
+        input.form-control(type='text', name='coursename', ng-model='courseName')
+      .form-group
+        button.form-control.btn.btn-success.btn-sm(ng-click='addCourse(courseName)') Add Course
+  .col-xs-6
+    p Course list:
+    ul
+      li(ng-repeat='course in courseNames track by $index') {{course}}
+hr
+form(name='addGradeForm' novalidate)
+.row
+  .col-xs-6
+      .form-group
+        label(for='course') Course
+        select.form-control(ng-model='grade.course')
+          option(ng-repeat='course in courseNames track by $index') {{course}}
+      .form-group
+        label(for='grade') Grade
+        input.form-control(type='number' min='0' max='100' name='grade' ng-model='grade.grade')
+  .col-xs-6
+      .form-group
+        label(for='date') Date
+        input.form-control(type='date' name='date' ng-model='grade.date')
+      .form-group
+        label(for='name') Assignment/Exam Name
+        input.form-control(type='text' name='name' ng-model='grade.name')
+.row
+  .col-xs-12
+      .form-group
+        button.form-control.btn.btn-info(ng-click='addGrade(grade)' ng-hide='editIndexVal') Add Grade
+        button.form-control.btn.btn-warning(ng-click='saveGrade(grade)' ng-show='editIndexVal') Add Grade
+.row
+  .col-xs-6(ng-repeat='(key, value) in grades' ng-if='!$last')
+    p 
+    h3 Course: {{value.$id}}
+    table.table.table-striped
+      thead
+        tr
+          th Delete
+          th Edit
+          th Name
+          th Date
+          th Grade
+      tbody
+        tr(ng-repeat='grade in value')
+          td: button.btn.btn-danger.btn-sm(ng-click='destroyGrade(value.$id, $index)') Delete
+          td: button.btn.btn-info.btn-sm(ng-click='editGrade(value.$id, $index, grade)') Edit
+          td {{grade.name}}
+          td {{grade.date | date: 'dd MMM yyyy'}}
+          td {{grade.grade}}
+      tfoot
+        tr
+          td
+          td
+          td
+          td
+          td average here
